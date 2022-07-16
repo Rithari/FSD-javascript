@@ -1,11 +1,18 @@
 class Controls {
-  constructor() {
+  constructor(type) {
     this.forward = false;
     this.left = false;
     this.right = false;
     this.backward = false;
 
-    this.#addKeyboardListeners();
+    switch(type) {
+        case "KEYS":
+            this.#addKeyboardListeners();
+            break;
+        case "BOT":
+            this.forward = true;
+            break;
+    }
   }
 
   // Hashtag is used to mark private methods

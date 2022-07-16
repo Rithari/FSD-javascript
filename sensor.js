@@ -1,23 +1,23 @@
 class Sensor {
   constructor(car) {
     this.car = car;
-    this.rayCount = 7;
-    this.rayLength = 150; // range of the sensor in pixels
-    this.raySpread = Math.PI / 2; // angle between each ray
+    this.rayCount = 5;
+    this.rayLength = 150;
+    this.raySpread = Math.PI / 2;
 
     this.rays = [];
     this.readings = [];
   }
 
-  update(roadBorders) {
+  update(roadBorders, traffic) {
     this.#castRays();
     this.readings = [];
-    for (let i = 0; i < this.rayCount; i++) {
-      this.readings.push(this.#getReading(this.rays[i], roadBorders));
+    for (let i = 0; i < this.rays.length; i++) {
+      this.readings.push(this.#getReading(this.rays[i], roadBorders, traffic));
     }
   }
 
-  #getReading(ray, roadBorders) {
+  #getReading(ray, roadBorders, traffic) {
     let touches = [];
 
     for (let i = 0; i < roadBorders.length; i++) {
@@ -29,6 +29,21 @@ class Sensor {
       );
       if (touch) {
         touches.push(touch);
+      }
+    }
+
+    for (let i = 0; i < traffic.length; i++) {
+      const poly = traffic[i].polygon;
+      for (let j = 0; j < poly.length; j++) {
+        const value = getIntersection(
+          ray[0],
+          ray[1],
+          poly[j],
+          poly[(j + 1) % poly.length]
+        );
+        if (value) {
+          touches.push(value);
+        }
       }
     }
 
@@ -66,6 +81,7 @@ class Sensor {
       if (this.readings[i]) {
         end = this.readings[i];
       }
+
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "yellow";
