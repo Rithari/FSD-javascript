@@ -67,7 +67,7 @@ class Car {
     }
 
     // Invert the controls if the car is going backwards
-    if (this.speed != 0) {
+    if (this.speed !== 0) {
       const flip = this.speed > 0 ? 1 : -1;
       if (this.controls.right) {
         this.angle -= 0.03 * flip;
