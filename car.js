@@ -12,7 +12,7 @@ class Car {
     this.angle = 0;
     this.damaged = false;
 
-    if (controlType != "BOT") {
+    if (controlType !== "BOT") {
       this.sensor = new Sensor(this);
     }
 

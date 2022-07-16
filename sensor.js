@@ -47,7 +47,7 @@ class Sensor {
       }
     }
 
-    if (touches.length == 0) {
+    if (touches.length === 0) {
       return null;
     } else {
       const offsets = touches.map((e) => e.offset);
