@@ -1,3 +1,5 @@
+// Visualizer from the course
+
 class Visualiser{
     static drawNetwork(ctx,network){
         const margin=50;
@@ -23,7 +25,7 @@ class Visualiser{
                 left,levelTop,
                 width,levelHeight,
                 i==network.levels.length-1
-                    ?['🠉','🠈','🠊','🠋']
+                    ?['↑','←','→','↓']
                     :[]
             );
         }

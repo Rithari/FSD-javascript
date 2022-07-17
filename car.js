@@ -17,7 +17,7 @@ class Car {
 
     if (controlType != "BOT") {
       this.sensor = new Sensor(this);
-      this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]);
+      this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]); // Two levels of neurons
     }
 
     this.controls = new Controls(controlType);
@@ -31,7 +31,7 @@ class Car {
     }
     if (this.sensor) {
       this.sensor.update(roadBorders, traffic);
-      const offsets = this.sensor.readings.map(s => s == null ? 0:1-s.offset);
+      const offsets = this.sensor.readings.map(s => s == null ? 0:1-s.offset); // Far away sensors are 0, closer sensors are 1
       const outputs = NeuralNetwork.goForward(offsets, this.brain);
 
       // Update controls based on the outputs
@@ -122,7 +122,7 @@ class Car {
     this.x -= Math.sin(this.angle) * this.speed;
     this.y -= Math.cos(this.angle) * this.speed;
   }
-  draw(ctx, color) {
+  draw(ctx, color, drawSensors = false) {
     if (this.damaged) {
       ctx.fillStyle = "gray";
     } else {
@@ -135,7 +135,7 @@ class Car {
     }
     ctx.fill();
 
-    if (this.sensor) {
+    if (this.sensor && drawSensors) {
       this.sensor.draw(ctx);
     }
   }
