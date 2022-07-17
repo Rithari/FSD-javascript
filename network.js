@@ -7,10 +7,10 @@ class NeuralNetwork {
     }
   }
 
-  static feedForward(inputs, network) {
-    let outputs = Level.feedForward(inputs, network.levels[0]);
+  static goForward(inputs, network) {
+    let outputs = Level.goForward(inputs, network.levels[0]);
     for (let i = 1; i < network.levels.length; i++) {
-      outputs = Level.feedForward(outputs, network.levels[i]);
+      outputs = Level.goForward(outputs, network.levels[i]);
     }
     return outputs;
   }
@@ -42,7 +42,7 @@ class Level {
     }
   }
 
-  static feedForward(givenInputs, level) {
+  static goForward(givenInputs, level) {
     for (let i = 0; i < level.inputs.length; i++) {
       level.inputs[i] = givenInputs[i];
     }
