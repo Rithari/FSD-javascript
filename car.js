@@ -13,9 +13,9 @@ class Car {
     this.damaged = false;
 
     // Add a brain to the car if the controlType is "AI"
-    this.addBrain = controlType == "AI";
+    this.addBrain = controlType === "AI";
 
-    if (controlType != "BOT") {
+    if (controlType !== "BOT") {
       this.sensor = new Sensor(this);
       this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]); // Two levels of neurons
     }
@@ -91,7 +91,7 @@ class Car {
     }
 
     // Invert the controls if the car is going backwards
-    if (this.speed != 0) {
+    if (this.speed !== 0) {
       const flip = this.speed > 0 ? 1 : -1;
       if (this.controls.right) {
         this.angle -= 0.03 * flip;
@@ -102,17 +102,21 @@ class Car {
     }
 
     // Update speed based on friction and also cap it at maxSpeed
-    if (this.speed > this.maxSpeed) {
-      this.speed = this.maxSpeed;
-    }
-    if (this.speed < -this.maxSpeed / 1.7) {
-      this.speed = -this.maxSpeed / 1.7;
-    }
-    if (this.speed > 0) {
-      this.speed -= this.friction;
-    }
-    if (this.speed < 0) {
-      this.speed += this.friction;
+    switch (true) {
+        case this.speed > this.maxSpeed:
+            this.speed = this.maxSpeed;
+            break;
+        case (this.speed < -this.maxSpeed / 1.7):
+            this.speed = -this.maxSpeed / 1.7;
+            break;
+        case (this.speed > 0):
+            this.speed -= this.friction;
+            break;
+        case (this.speed < 0):
+            this.speed += this.friction;
+            break;
+        default:
+          break;
     }
     // Make sure speed is never smaller than the friction value (causes infinite moving)
     if (Math.abs(this.speed) < this.friction) {

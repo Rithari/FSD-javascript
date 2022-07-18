@@ -30,7 +30,7 @@ const traffic = [
 if(localStorage.getItem("bestBrain")) {
   for(let i = 0; i < cars.length; i++) {
     cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
-    if( i != 0) {
+    if( i !== 0) {
       NeuralNetwork.mutate(cars[i].brain, 0.1); // Amount of mutation
     }
   }
@@ -44,6 +44,29 @@ function save() {
 
 function discard() {
   localStorage.removeItem("bestBrain");
+}
+
+// Upload file and localStorage.setItem
+function uploadFile() {
+  // Create a new upload element
+  const upload = document.createElement("input");
+  upload.type = "file";
+  upload.accept = ".json";
+  upload.onchange = function() {
+    // Get the file
+    const file = this.files[0];
+    // Create a new reader
+    const reader = new FileReader();
+    // When the reader loads, parse the JSON
+    reader.onload = function() {
+      localStorage.removeItem("bestBrain");
+      localStorage.setItem("bestBrain", JSON.stringify(JSON.parse(reader.result)));
+    }
+    // Read the file
+    reader.readAsText(file);
+  }
+  // Click the upload element
+  upload.click();
 }
 
 function generateCars(N) {
@@ -62,7 +85,7 @@ function animate(time) {
     cars[i].update(road.borders, traffic);
   }
 
-  bestCar = cars.find(c => c.y == Math.min(...cars.map(c=> c.y)));
+  bestCar = cars.find(c => c.y === Math.min(...cars.map(c=> c.y)));
 
   canvas.height = window.innerHeight; // resize here to reset it when animating
   networkCanvas.height = window.innerHeight;
