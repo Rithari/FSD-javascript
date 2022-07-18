@@ -13,9 +13,9 @@ class Car {
     this.damaged = false;
 
     // Add a brain to the car if the controlType is "AI"
-    this.addBrain = controlType == "AI";
+    this.addBrain = controlType === "AI";
 
-    if (controlType != "BOT") {
+    if (controlType !== "BOT") {
       this.sensor = new Sensor(this);
       this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]); // Two levels of neurons
     }
