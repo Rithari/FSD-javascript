@@ -46,6 +46,29 @@ function discard() {
   localStorage.removeItem("bestBrain");
 }
 
+// Upload file and localStorage.setItem
+function uploadFile() {
+  // Create a new upload element
+  const upload = document.createElement("input");
+  upload.type = "file";
+  upload.accept = ".json";
+  upload.onchange = function() {
+    // Get the file
+    const file = this.files[0];
+    // Create a new reader
+    const reader = new FileReader();
+    // When the reader loads, parse the JSON
+    reader.onload = function() {
+      localStorage.removeItem("bestBrain");
+      localStorage.setItem("bestBrain", JSON.stringify(JSON.parse(reader.result)));
+    }
+    // Read the file
+    reader.readAsText(file);
+  }
+  // Click the upload element
+  upload.click();
+}
+
 function generateCars(N) {
   const cars = [];
   for (let i = 1; i <= N; i++) {
